@@ -1,0 +1,632 @@
+{
+  "read": {
+    "Taxpayer_ID": {
+      "required": false,
+      "type": "int",
+      "desc": "Unique positive numeric identifier for filing unit",
+      "form": {
+        "2022": "private info"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+     "id_n": {
+       "required": true,
+       "type": "int",
+       "desc": "Unique positive numeric identifier for filing unit",
+       "form": {
+         "2022": "private info"
+       },
+       "cross_year": "No",
+       "attribute": "No"
+     },
+    "Year": {
+      "required": true,
+      "type": "int",
+      "desc": "Tax Year",
+      "form": {
+        "2022": "private info"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Sector_short": {
+      "required": false,
+      "type": "string",
+      "desc": "Sector - Manufacturing, Service, QIP, Insurance, Mining",
+      "form": {
+        "2022": "private info"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },    
+    "sector_code": {
+      "required": false,
+      "type": "int",
+      "desc": "Sector - many",
+      "form": {
+        "2022": "private info"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Age_2023": {
+      "type": "int",
+      "desc": "Age of firm since registration",
+      "form": {
+        "2022": "private info"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Audit_flag": {
+      "type": "string",
+      "desc": "Whether books of account are audited",
+      "form": {
+        "2022": "private info"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Legal form": {
+      "type": "string",
+      "desc": "Legal form - Prop., Pvt Ltd, LLC",
+      "form": {
+        "2022": "private info"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Total_assets": {
+      "type": "float",
+      "desc": "Total assets of business firm",
+      "form": {
+        "2022": "Field a0 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Oper_rev": {
+      "type": "float",
+      "desc": "Operating revenues - sum of sales of goods, products and services",
+      "form": {
+        "2022": "Field b0 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Sub_rev": {
+      "type": "float",
+      "desc": "Subsidiary revenues - sum of rent, royalty, other revenues",
+      "form": {
+        "2022": "Field b8 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Other_rev": {
+      "type": "float",
+      "desc": "Other revenues - sum of grants, subsidies, dividends, interest",
+      "form": {
+        "2022": "Field b12 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Op_wdv": {
+      "type": "float",
+      "desc": "Opening WDV of depreciable assets",
+      "form": {
+        "2022": "Field p13_grand_total_2 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Add_assets": {
+      "type": "float",
+      "desc": "Additions to depreciable assets",
+      "form": {
+        "2022": "Field p13_grand_total_3 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Dispose_assets": {
+      "type": "float",
+      "desc": "Disposal of depreciable assets",
+      "form": {
+        "2022": "Field p13_grand_total_4 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Add_assets_spl": {
+      "type": "float",
+      "desc": "Addition of assets eligible for special depreciation",
+      "form": {
+        "2022": "Field p14_grand_1 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "profit_before_tax": {
+      "type": "float",
+      "desc": "Profit before tax - net accounting profit",
+      "form": {
+        "2022": "Field b46 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Donations_grants": {
+      "type": "float",
+      "desc": "Expenses on donations, grants, subsidies",
+      "form": {
+        "2022": "Field e5 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "non_ded_exp": {
+      "type": "float",
+      "desc": "Non deductible expenses",
+      "form": {
+        "2022": "Field e18 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "unrecorded_inc": {
+      "type": "float",
+      "desc": "Income not recorded in books",
+      "form": {
+        "2022": "Field e25 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "dec_provision": {
+      "type": "float",
+      "desc": "Decrease in provisions",
+      "form": {
+        "2022": "Field e28 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "loss_disposal": {
+      "type": "float",
+      "desc": "Loss on disposal of assets",
+      "form": {
+        "2022": "Field e29 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "other_ded_exp": {
+      "type": "float",
+      "desc": "Other deductible expenses",
+      "form": {
+        "2022": "Field e30 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "dividends": {
+      "type": "float",
+      "desc": "Dividend income - non-taxable income",
+      "form": {
+        "2022": "Field e32 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "capgain_disp_assets": {
+      "type": "float",
+      "desc": "Capital gains on disposal of assets - non-taxable income",
+      "form": {
+        "2022": "Field e33 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "other_inc": {
+      "type": "float",
+      "desc": "Other income - non-taxable income",
+      "form": {
+        "2022": "Field e34 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "charity_cont": {
+      "type": "float",
+      "desc": "Contributions for charitable purposes",
+      "form": {
+        "2022": "Field f2 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "int_exp": {
+      "type": "float",
+      "desc": "Interest expenses",
+      "form": {
+        "2022": "Field g2 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "int_inc": {
+      "type": "float",
+      "desc": "Interest income",
+      "form": {
+        "2022": "Field g3 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "accum_inc": {
+      "type": "float",
+      "desc": "Accumulated income - mining companies",
+      "form": {
+        "2022": "Field x2 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+     "accum_exp": {
+       "type": "float",
+       "desc": "Accumulated expenses - mining companies",
+       "form": {
+         "2022": "Field x3 - Form TOI 01"
+       },
+       "cross_year": "No",
+       "attribute": "No"
+     },
+   "Loss_lag1": {
+      "type": "float",
+      "desc": "Brought forward loss - one years old",
+      "form": {
+        "2022": "Field p12_n_1_5 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Loss_lag2": {
+      "type": "float",
+      "desc": "Brought forward loss - two years old",
+      "form": {
+        "2022": "Field p12_n_2_5 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Loss_lag3": {
+      "type": "float",
+      "desc": "Brought forward loss - three years old",
+      "form": {
+        "2022": "Field p12_n_3_5 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Loss_lag4": {
+      "type": "float",
+      "desc": "Brought forward loss - four years old",
+      "form": {
+        "2022": "Field p12_n_4_5 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Loss_lag5": {
+      "type": "float",
+      "desc": "Brought forward loss - five years old",
+      "form": {
+        "2022": "Field p12_n_5_5 - Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Loss_lag6": {
+      "type": "float",
+      "desc": "Brought forward loss - six years old",
+      "form": {
+        "2022": "Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Loss_lag7": {
+      "type": "float",
+      "desc": "Brought forward loss - seven years old",
+      "form": {
+        "2022": "Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Loss_lag8": {
+      "type": "float",
+      "desc": "Brought forward loss - eight years old",
+      "form": {
+        "2022": "Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Loss_lag9": {
+      "type": "float",
+      "desc": "Brought forward loss - nine years old",
+      "form": {
+        "2022": "Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    },
+    "Loss_lag10": {
+      "type": "float",
+      "desc": "Brought forward loss - ten years old",
+      "form": {
+        "2022": "Form TOI 01"
+      },
+      "cross_year": "No",
+      "attribute": "No"
+    }
+  },
+  "calc": {
+     "Turnover": {
+       "type": "float",
+       "desc": "Sum of operating revenues, subsidiary revenues and other revenues",
+       "form": {
+         "2022": ""
+       }
+     },
+     "Total_assets": {
+        "type": "float",
+        "desc": "Sum of current and non-current assets",
+        "form": {
+          "2022": ""
+        }
+      },
+     "sector": {
+          "type": "string",
+          "desc": "Sector of business firm - Manufacturing, Service, QIP, Insurance, Mining",
+          "form": {
+            "2022": ""
+          }
+        },
+     "size": {
+          "type": "string",
+          "desc": "size of business firm - small, medium, large",
+          "form": {
+            "2022": ""
+          }
+        },
+     "normal_depr_base": {
+        "type": "float",
+        "desc": "Depreciation base eligible for standard depreciation as per tax law",
+        "form": {
+          "2022": ""
+        }
+      },
+    "normal_depr": {
+        "type": "float",
+        "desc": "Normal depreciation as per tax law",
+        "form": {
+          "2022": ""
+        }
+      },
+     "spl_depr_base": {
+          "type": "float",
+          "desc": "Depreciation base eligible for special depreciation as per tax law",
+          "form": {
+            "2022": ""
+          }
+        },
+    "spl_depr": {
+          "type": "float",
+          "desc": "Special depreciation as per tax law",
+          "form": {
+            "2022": ""
+          }
+        },
+    "total_depr": {
+               "type": "float",
+               "desc": "Total depreciation as per tax law",
+               "form": {
+                 "2022": ""
+               }
+             },
+    "Cl_wdv": {
+               "type": "float",
+               "desc": "Closing WDV of depreciable assets",
+               "form": {
+                 "2022": ""
+               }
+             },
+     "net_accounting_profit": {
+      "type": "float",
+      "desc": "computed accounting business profit",
+      "form": {
+        "2022": "Field b46 - Form TOI 01"
+      }
+    },
+    "total_additions": {
+      "type": "float",
+      "desc": "additions to accounting profit to compute taxable profits",
+      "form": {
+        "2022": "Sum of fields e5, e18, e25 - Form TOI 01"
+      }
+    },
+      "total_deductions": {
+        "type": "float",
+        "desc": "deductions from accounting profit to compute taxable profits",
+        "form": {
+          "2022": "Field e31 - sum of fields e26, e27, e28, e29, e30 - Form TOI 01"
+        }
+      },
+    "total_non_tax_inc": {
+      "type": "float",
+      "desc": "Sum of all non-taxable income such as dividends, capital gains from sale of assets",
+      "form": {
+        "2022": "Field e35 - sum of fields e32, e33, e34 - Form TOI 01"
+      }
+    },
+    "adjusted_profit": {
+      "type": "float",
+      "desc": "Adjusted profit after additions, deductions and excluding non-taxable income",
+      "form": {
+        "2022": "Field e36 - Form TOI 01"
+      }
+    },
+    "ded_charity": {
+      "type": "float",
+      "desc": "Deductions for charitable contributions allowed as per tax law",
+      "form": {
+        "2022": "Field f5 - Form TOI 01"
+      }
+    },
+    "non_ded_charity": {
+       "type": "float",
+       "desc": "Charitable contributions not allowed as per tax law",
+       "form": {
+         "2022": "Field f6 - Form TOI 01"
+       }
+     },
+    "profit_before_int": {
+      "type": "float",
+      "desc": "Taxable Income before allowing interest deductions as per tax law",
+      "form": {
+        "2022": "Field e38 - Form TOI 01"
+      }
+    },
+    "non_ded_int": {
+      "type": "float",
+      "desc": "Non deductible interest exp",
+      "form": {
+        "2022": "Field g8 / e39 - Form TOI 01"
+      }
+    },
+  "profit_after_int": {
+    "type": "float",
+    "desc": "Taxable Income after allowing interest deductions as per tax law",
+    "form": {
+      "2022": "Field e40 - Form TOI 01"
+    }
+  },
+   "Used_loss_total": {
+     "type": "float",
+     "desc": "Loss used during the year as per tax law",
+     "form": {
+       "2022": "Field e41 - Form TOI 01"
+     }
+   },
+    "net_taxable_profit": {
+      "type": "float",
+      "desc": "Net tax base after allowing loss adjustment as per tax law",
+      "form": {
+        "2022": "Field e42 - Form TOI 01"
+      }
+    },
+    "net_tax_base_behavior": {
+      "type": "float",
+      "desc": "Taxable Income after allowing for behavioral effect",
+      "form": {
+        "2022": ""
+      }
+    },
+    "excess_tax": {
+         "type": "float",
+         "desc": "Excess tax payable by Mining companies",
+         "form": {
+           "2022": "Field x5 / e44 - Form TOI 01"
+         }
+       },
+    "citax": {
+      "type": "float",
+      "desc": "tax due on net tax base",
+      "form": {
+        "2022": "Field e45 - Form TOI 01"
+      }
+    },
+    "newloss1": {
+      "type": "float",
+      "desc": "Carried forward loss - one years old",
+      "form": {
+        "2022": "Form TOI 01"
+      }
+    },
+    "newloss2": {
+      "type": "float",
+      "desc": "Carried forward loss - two years old",
+      "form": {
+        "2022": "Form TOI 01"
+      }
+    },
+    "newloss3": {
+      "type": "float",
+      "desc": "Carried forward loss - three years old",
+      "form": {
+        "2022": "Form TOI 01"
+      }
+    },
+    "newloss4": {
+      "type": "float",
+      "desc": "Carried forward loss - four years old",
+      "form": {
+        "2022": "Form TOI 01"
+      }
+    },
+    "newloss5": {
+      "type": "float",
+      "desc": "Carried forward loss - five years old",
+      "form": {
+        "2022": "Form TOI 01"
+      }
+    },
+    "newloss6": {
+      "type": "float",
+      "desc": "Carried forward loss - six years old",
+      "form": {
+        "2022": "Form TOI 01"
+      }
+    },
+    "newloss7": {
+      "type": "float",
+      "desc": "Carried forward loss - seven years old",
+      "form": {
+        "2022": "Form TOI 01"
+      }
+    },
+    "newloss8": {
+      "type": "float",
+      "desc": "Carried forward loss - eight years old",
+      "form": {
+        "2022": "Form TOI 01"
+      }
+    },
+    "newloss9": {
+      "type": "float",
+      "desc": "Carried forward loss - nine years old",
+      "form": {
+        "2022": "Form TOI 01"
+      }
+    },
+    "newloss10": {
+      "type": "float",
+      "desc": "Carried forward loss - ten years old",
+      "form": {
+        "2022": "Form TOI 01"
+      }
+    },
+    "MAT": {
+       "type": "float",
+       "desc": "Minimum Alternative Tax",
+       "form": {
+         "2022": "new item"
+          }
+        }          
+  }
+}
