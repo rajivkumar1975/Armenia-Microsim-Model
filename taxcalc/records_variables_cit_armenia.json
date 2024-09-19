@@ -9,7 +9,7 @@
       "cross_year": "No",
       "attribute": "No"
     },
-    "Year": {
+   "Year": {
       "required": true,
       "type": "int",
       "desc": "Tax Year",
@@ -19,8 +19,8 @@
       "cross_year": "No",
       "attribute": "No"
     },
-    "DataSet": {
-      "type": "int",
+    "TO_flag": {
+      "type": "float",
       "desc": " ",
       "form": {
         "2022": " "
@@ -2960,6 +2960,14 @@
       "2022": ""
     }
   },
+   "income_totax_payer": {
+     "type": "float",
+     "desc": " ",
+     "cross_year": "",
+     "form": {
+       "2022": ""
+     }
+   },
   "calc_sales_turn_rev_all_act": {
     "type": "float",
     "desc": " ",

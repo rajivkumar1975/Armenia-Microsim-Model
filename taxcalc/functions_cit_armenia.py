@@ -211,10 +211,23 @@ def calc_taxable_income_fun(rate_exempt_patent,rate_exempt_approved_act, calc_in
     calc_taxable_income = calc_income - (inc_licensing * rate_exempt_patent)  - (inc_border * rate_exempt_approved_act)
     return calc_taxable_income
 
+@iterate_jit(nopython=True)
+def calc_total_turnover_fun(rev_comm_q, rev_pub_cater_q, to_income_1, to_income_2,
+                            to_income_3, to_income_4, to_income_5, to_income_6, 
+                            to_income_8, to_income_9, calc_TO_all):
+    calc_TO_all =   (rev_comm_q + rev_pub_cater_q + to_income_1 + to_income_2 + to_income_3 + 
+                    to_income_4 + to_income_5 + to_income_6 + to_income_8 + to_income_9)
+                    
+    return calc_TO_all
+
+@iterate_jit(nopython=True)
+def calc_profit_totax(switch_TO, cit_tax_rate, net_profit_margin, calc_TO_all, income_totax_payer):
+    income_totax_payer = calc_TO_all * net_profit_margin * cit_tax_rate * switch_TO
+    return income_totax_payer
 
 @iterate_jit(nopython=True)
 def calc_taxable_profit_loss_fun(calc_taxable_income, calc_total_ded_with_dep, calc_ded_total_licensing, calc_ded_total_org_production_border, calc_gti):
-    calc_gti = calc_taxable_income - calc_total_ded_with_dep + calc_ded_total_licensing + calc_ded_total_org_production_border
+    calc_gti = calc_taxable_income - calc_total_ded_with_dep + calc_ded_total_licensing + calc_ded_total_org_production_border 
     return (calc_gti)
 
 @iterate_jit(nopython=True)
@@ -319,11 +332,16 @@ def calc_income_tax_ded_fun(calc_profit_tax_reduction_projects, calc_profit_tax_
 #         calc_profit_tax_after_ded=0
 #         return (calc_profit_tax_after_ded)
 
+
+#  Tax amount on turnover from all activities
+
+
 @iterate_jit(nopython=True)
-def calc_cit_liability(rate_mat, calc_income, calc_profit_tax_reporting,calc_income_tax_ded,citax):
-    matax = rate_mat * calc_income
-    citax= max(max(calc_profit_tax_reporting - calc_income_tax_ded, 0), matax) 
-    mat_credit = max(matax - citax, 0)
+def calc_cit_liability(rate_mat, switch_TO, income_totax_payer, calc_income, calc_TO_all, calc_profit_tax_reporting, calc_income_tax_ded, citax):
+    cit = (calc_profit_tax_reporting - calc_income_tax_ded) + income_totax_payer*switch_TO
+    matax = rate_mat * (calc_income + calc_TO_all*switch_TO)
+    citax= max(max(cit, 0), matax) 
+    #mat_credit = max(matax - citax, 0)
     return (citax)
     
  
@@ -471,31 +489,28 @@ def calc_tax_other_disp_fun(to_income_9, rate_TO_tax_other_disp, calc_tax_other_
     return calc_tax_other_disp
 
 
-#  Tax amount on turnover from all activities
-@iterate_jit(nopython=True)
-def calc_total_turnover_fun(calc_income, rev_comm_q, rev_pub_cater_q, to_income_1, to_income_2,
-                            to_income_3, to_income_4, to_income_5, to_income_6, 
-                            to_income_8, to_income_9, calc_TO_all):
-    calc_TO_all =  (calc_income + rev_comm_q + rev_pub_cater_q + to_income_1 + to_income_2 + to_income_3 + 
-                    to_income_4 + to_income_5 + to_income_6 + to_income_8 + to_income_9)
-                    
-    return calc_TO_all
+
+# #Calculate turnover tax on turnover of profit tax if TO is below threshold
+# @iterate_jit(nopython=True)
+# def calc_TO_tax_other_fun(calc_income, TO_thold, rate_TO_tax_other, calc_TO_tax_other):
+#     if calc_income <= TO_thold:
+#         calc_TO_tax_other = calc_income * rate_TO_tax_other
+#     return calc_TO_tax_other
 
 #Calculate turnover tax on turnover of profit tax if TO is below threshold
 @iterate_jit(nopython=True)
 def calc_TO_tax_other_fun(calc_income, TO_thold, rate_TO_tax_other, calc_TO_tax_other):
-    if calc_income <= TO_thold:
-        calc_TO_tax_other = calc_income * rate_TO_tax_other
+    calc_TO_tax_other = 0
     return calc_TO_tax_other
 
 #Calculate total turnover tax 
 @iterate_jit(nopython=True)
-def calc_TO_tax_all_fun(calc_TO_tax_other, calc_tax_payable_comm, calc_tax_payable_catering, calc_tax_trading,
+def calc_TO_tax_all_fun(switch_TO, calc_TO_tax_other, calc_tax_payable_comm, calc_tax_payable_catering, calc_tax_trading,
                         calc_tax_newspaper, calc_tax_production, calc_tax_rent_royalty, calc_tax_lottery,
                         calc_tax_notary, calc_tax_assets_catering, calc_tax_other_disp):
     totax = (calc_TO_tax_other + calc_tax_payable_comm + calc_tax_payable_catering + calc_tax_trading +
              calc_tax_newspaper + calc_tax_production + calc_tax_rent_royalty + calc_tax_lottery +
-             calc_tax_notary + calc_tax_assets_catering + calc_tax_other_disp)
+             calc_tax_notary + calc_tax_assets_catering + calc_tax_other_disp)*(1 - switch_TO)
     return totax
 
 

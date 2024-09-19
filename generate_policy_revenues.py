@@ -338,24 +338,32 @@ def generate_policy_revenues():
     #tax_type = tax_list[0]
     data = {}
     for year in range(data_start_year, end_year+1):       
-        calc1.advance_to_year(year)
-        calc2.advance_to_year(year)
+        calc1.advance_to_year1(year)
         calc1.calc_all()
-        data[year] = calc1.dataframe_cit(['id_n', 'Year', 'Op_WDV_prop', 'Cl_WDV_prop','calc_taxable_income', 
-                                          'Loss_lag1', 'Loss_lag2', 'Loss_lag3', 'Loss_lag4', 'Loss_lag5',
-                                          'Loss_lag6', 'Loss_lag7', 'Loss_lag8', 'Loss_lag9', 'Loss_lag10',
-                                          'newloss1', 'newloss2', 'newloss3', 'newloss4', 'newloss5',
-                                          'newloss6', 'newloss7', 'newloss8', 'newloss9', 'newloss10',
-                                          'citax'])
-        cfdata = calc1.dataframe_cit(['id_n', 'newloss1', 'newloss2', 'newloss3', 'newloss4', 'newloss5',
+        cfdata1 = calc1.dataframe_cit(['id_n', 'newloss1', 'newloss2', 'newloss3', 'newloss4', 'newloss5',
                                       'newloss6', 'newloss7', 'newloss8', 'newloss9', 'newloss10', 'Cl_WDV_prop'])
-        cfdata = cfdata.rename(columns={'newloss1' : "Loss_lag1", 'newloss2':"Loss_lag2", 'newloss3':"Loss_lag3", 
+        cfdata1 = cfdata1.rename(columns={'newloss1' : "Loss_lag1", 'newloss2':"Loss_lag2", 'newloss3':"Loss_lag3", 
                                         'newloss4':"Loss_lag4", 'newloss5':"Loss_lag5",'newloss6':"Loss_lag6", 
                                         'newloss7':"Loss_lag7", 'newloss8':"Loss_lag8", 'newloss9':"Loss_lag9", 
                                         'newloss10':"Loss_lag10", 'Cl_WDV_prop':'Op_WDV_prop'})
-        cfdata.to_csv("taxcalc/cfdata.csv", index=False)
+        cfdata1.to_csv("taxcalc/cfdata1.csv", index=False)
+        
+        calc2.advance_to_year2(year)
         calc2.calc_all()
-       
+        cfdata2 = calc2.dataframe_cit(['id_n', 'newloss1', 'newloss2', 'newloss3', 'newloss4', 'newloss5',
+                                      'newloss6', 'newloss7', 'newloss8', 'newloss9', 'newloss10', 'Cl_WDV_prop'])
+        cfdata2 = cfdata2.rename(columns={'newloss1' : "Loss_lag1", 'newloss2':"Loss_lag2", 'newloss3':"Loss_lag3", 
+                                        'newloss4':"Loss_lag4", 'newloss5':"Loss_lag5",'newloss6':"Loss_lag6", 
+                                        'newloss7':"Loss_lag7", 'newloss8':"Loss_lag8", 'newloss9':"Loss_lag9", 
+                                        'newloss10':"Loss_lag10", 'Cl_WDV_prop':'Op_WDV_prop'})
+        cfdata2.to_csv("taxcalc/cfdata2.csv", index=False)
+        
+        data[year] = calc2.dataframe_cit(['id_n', 'Year', 'Op_WDV_prop', 'Cl_WDV_prop','calc_taxable_income', 
+                                          'Loss_lag1', 'Loss_lag2', 'Loss_lag3', 'Loss_lag4', 'Loss_lag5',
+                                          'Loss_lag6', 'Loss_lag7', 'Loss_lag8', 'Loss_lag9', 'Loss_lag10',
+                                          'newloss1', 'newloss2', 'newloss3', 'newloss4', 'newloss5',
+                                          'newloss6', 'newloss7', 'newloss8', 'newloss9', 'newloss10', 'calc_gti', 'calc_TO_all', 
+                                          'income_totax_payer', 'citax'])
         #print("Gini Coefficient", calc1.gini(gross_i_w))
         
         '''
@@ -395,9 +403,16 @@ def generate_policy_revenues():
 
         if adjust_behavior:
         #redo the calculations by including behavioral adjustment
-            calc3.advance_to_year(year)
+            calc3.advance_to_year3(year)
             calc3.calc_all()
-
+            cfdata3 = calc3.dataframe_cit(['id_n', 'newloss1', 'newloss2', 'newloss3', 'newloss4', 'newloss5',
+                                          'newloss6', 'newloss7', 'newloss8', 'newloss9', 'newloss10', 'Cl_WDV_prop'])
+            cfdata3 = cfdata3.rename(columns={'newloss1' : "Loss_lag1", 'newloss2':"Loss_lag2", 'newloss3':"Loss_lag3", 
+                                            'newloss4':"Loss_lag4", 'newloss5':"Loss_lag5",'newloss6':"Loss_lag6", 
+                                            'newloss7':"Loss_lag7", 'newloss8':"Loss_lag8", 'newloss9':"Loss_lag9", 
+                                            'newloss10':"Loss_lag10", 'Cl_WDV_prop':'Op_WDV_prop'})
+            cfdata3.to_csv("taxcalc/cfdata3.csv", index=False)
+            
             '''Fourth category added to revenue_dict is 'behavior' if behavior is selected in tab3'''
             revenue_dict = weighted_total_tax(calc3, tax_list, 'reform_behavior', year, revenue_dict, GDP_Nominal, attribute_var)
             if verbose:            
@@ -475,6 +490,8 @@ def generate_policy_revenues():
                 '''
                 output_in_averages = True
                 output_categories = 'weighted_deciles' 
+                print('tax type is ', tax_type)
+                print('income measure', income_measure[tax_type])
                 dt1[tax_type][year], dt2[tax_type][year] = calc1.distribution_tables_dict(tax_type, calc2, output_categories, 
                                                     distribution_vardict_dict[tax_type], income_measure=income_measure[tax_type],
                                                     averages=output_in_averages,

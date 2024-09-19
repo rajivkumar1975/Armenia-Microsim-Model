@@ -242,7 +242,7 @@
         "boolean_value": false,
         "integer_value": false,
         "value": [
-               3e+99, 3e+99, 3e+99
+               9e+99, 9e+99, 9e+99
         ],
         "range": {
             "min": 9e+99,
