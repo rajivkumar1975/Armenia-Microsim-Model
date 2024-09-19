@@ -325,32 +325,6 @@ class Calculator(object):
         """
         Advance all embedded objects to next year.
         """
-        # store the current year values of loss and closing balance of
-        # fixed assets to be moved to next year
-        # if self.corprecords is not None:
-        # #     bf_loss={}
-        # #     for i in range(1, self.max_lag_years+1):
-        # #         bf_loss[i] = getattr(self.__corprecords, 'newloss'+str(i))           
-        # #     df1 = pd.DataFrame.from_dict(bf_loss)
-        # #     df1.to_csv('bf_loss.csv')
-        #     # cl_wdv = {}
-        #     # for var in self.CROSS_YEAR_VARS:
-        #     #     cl_wdv[var] = getattr(self.__corprecords, 'Cl'+var[2:])
-        #     cl_wdv = getattr(self.__corprecords, 'Cl_wdv')
-        #     # cf_loss = {}
-        #     if self.corprecords is not None:         
-        #         # for i in range(1, self.max_lag_years+1):
-        #         #     setattr(self.__corprecords, 'Loss_lag'+str(i), bf_loss[i]) 
-        #         #     cf_loss[i] = getattr(self.__corprecords, 'Loss_lag'+str(i))
-        #         # df2 = pd.DataFrame.from_dict(cf_loss)  
-        #         # df2.to_csv('cf_loss.csv')              
-        #         #self.__records.Loss_lag1 = bf_loss1
-        #         #print('bf loss lag 1 is ', self.__corprecords.Loss_lag1)
-        #         for var in self.CROSS_YEAR_VARS:
-        #             setattr(self.__corprecords, 'Op'+var, cl_wdv[var])
-        #         #print('op wdv is ', cl_wdv)
-        #         setattr(self.__corprecords, 'Op_wdv', cl_wdv)
-
         next_year = self.__policy.current_year + 1
         self.__policy.set_year(next_year)
          
@@ -359,39 +333,10 @@ class Calculator(object):
         if self.gstrecords is not None:            
             self.__gstrecords.increment_year()
         if self.corprecords is not None:
-            
-            # cl_wdv = getattr(self.__corprecords, 'Cl_wdv')
-            # setattr(self.__corprecords, 'Op_wdv', cl_wdv)
-            # print('Op_wdv is' , cl_wdv)
-                        
-            CUR_PATH = os.path.abspath(os.path.dirname(__file__))
-            file = 'cfdata.csv'
-            path = os.path.join(CUR_PATH, file)
-            cfdata = pd.read_csv(path)
-            
-            for i in range(1, self.max_lag_years+1):
-                setattr(self.__corprecords, 'Loss_lag'+str(i), cfdata['Loss_lag' + str(i)])
-            setattr(self.__corprecords, 'Op_WDV_prop', cfdata['Op_WDV_prop'])
             self.__corprecords.increment_year()
-           
-           
-        
-        # cf_loss = {}
-        # if self.corprecords is not None:         
-        #     for i in range(1, self.max_lag_years+1):
-        #         setattr(self.__corprecords, 'Loss_lag'+str(i), bf_loss[i]) 
-        #         cf_loss[i] = getattr(self.__corprecords, 'Loss_lag'+str(i))
-        #     df2 = pd.DataFrame.from_dict(cf_loss)  
-        #     df2.to_csv('cf_loss.csv')              
-        #     #self.__records.Loss_lag1 = bf_loss1
-        #     #print('bf loss lag 1 is ', self.__corprecords.Loss_lag1)
-        #     for var in self.CROSS_YEAR_VARS:
-        #         setattr(self.__corprecords, 'Op'+var, cl_wdv[var])
-        #     #print('op wdv is ', cl_wdv)
-        #     setattr(self.__corprecords, 'Op_wdv', cl_wdv)
-        
+               
 
-    def advance_to_year(self, year):
+    def advance_to_year1(self, year):
         """
         The advance_to_year function gives an optional way of implementing
         increment year functionality by immediately specifying the year
@@ -404,8 +349,65 @@ class Calculator(object):
                              'greater than current year!')
         for _ in range(iteration):
             self.increment_year()
+            CUR_PATH = os.path.abspath(os.path.dirname(__file__))
+            file = 'cfdata1.csv'
+            path = os.path.join(CUR_PATH, file)
+            cfdata = pd.read_csv(path)
+            
+            for i in range(1, self.max_lag_years+1):
+                setattr(self.__corprecords, 'Loss_lag'+str(i), cfdata['Loss_lag' + str(i)])
+            setattr(self.__corprecords, 'Op_WDV_prop', cfdata['Op_WDV_prop'])
+        
         assert self.current_year == year
 
+    def advance_to_year2(self, year):
+        """
+        The advance_to_year function gives an optional way of implementing
+        increment year functionality by immediately specifying the year
+        as input.  New year must be at least the current year.
+        """
+        #print("self.current_year ", self.current_year)
+        iteration = year - self.current_year
+        if iteration < 0:
+            raise ValueError('New current year must be ' +
+                             'greater than current year!')
+        for _ in range(iteration):
+            self.increment_year()
+        
+            CUR_PATH = os.path.abspath(os.path.dirname(__file__))
+            file = 'cfdata2.csv'
+            path = os.path.join(CUR_PATH, file)
+            cfdata = pd.read_csv(path)
+            
+            for i in range(1, self.max_lag_years+1):
+                setattr(self.__corprecords, 'Loss_lag'+str(i), cfdata['Loss_lag' + str(i)])
+            setattr(self.__corprecords, 'Op_WDV_prop', cfdata['Op_WDV_prop'])
+                
+            assert self.current_year == year
+        
+    def advance_to_year3(self, year):
+         """
+         The advance_to_year function gives an optional way of implementing
+         increment year functionality by immediately specifying the year
+         as input.  New year must be at least the current year.
+         """
+         #print("self.current_year ", self.current_year)
+         iteration = year - self.current_year
+         if iteration < 0:
+             raise ValueError('New current year must be ' +
+                              'greater than current year!')
+         for _ in range(iteration):
+             self.increment_year()
+             CUR_PATH = os.path.abspath(os.path.dirname(__file__))
+             file = 'cfdata3.csv'
+             path = os.path.join(CUR_PATH, file)
+             cfdata = pd.read_csv(path)
+             for i in range(1, self.max_lag_years+1):
+                 setattr(self.__corprecords, 'Loss_lag'+str(i), cfdata['Loss_lag' + str(i)])
+                 setattr(self.__corprecords, 'Op_WDV_prop', cfdata['Op_WDV_prop'])
+                 
+             assert self.current_year == year
+    
     def calc_all(self):
         """
         Call all tax-calculation functions for the current_year.
@@ -1099,6 +1101,8 @@ class Calculator(object):
                     else:
                         imeasure = income_measure
                 else:
+                    print('income measure not same')
+                    attribute_value = ['All']
                     imeasure = 'calc_gti'
                     #imeasure = 'GTI_baseline'
                     var_dataframe[attribute_value][imeasure] = self.array(imeasure)
