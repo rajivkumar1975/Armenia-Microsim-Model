@@ -73,15 +73,7 @@ class GrowFactors(object):
     set4 = set(['CPI', 'SALARY'])
     set5 = set(['CONSUMPTION', 'OTHER_CONS_ITEM'])
     VALID_NAMES = set.union(set1, set2, set3, set4, set5)
-    """
-    VALID_NAMES = set(['CPI', 'SALARY', 'RENT', 'BP_NONSPECULATIVE',
-                       'BP_SPECULATIVE', 'BP_SPECIFIED', 'BP_PATENT115BBF',
-                       'STCG_APPRATE', 'OINCOME', 'DEDUCTIONS',
-                       'DEDU_SEC_10A_OR_10AA', 'ST_CG_AMT_1',
-                       'ST_CG_AMT_2', 'LT_CG_AMT_1', 'LT_CG_AMT_2',
-                       'LOSSES_CY', 'LOSSES_BF', 'AGRI_INCOME', 'CORP',
-                       'INVESTMENT', 'CONSUMPTION', 'OTHER_CONS_ITEM'])
-    """
+    
     def __init__(self, growfactors_filename=GROWFACTORS_FILENAME):
         f = open('global_vars.json')
         global_variables = json.load(f)
