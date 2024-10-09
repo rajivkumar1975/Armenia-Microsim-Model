@@ -5,7 +5,6 @@ Tax-Calculator CorpRecords class.
 # pycodestyle records.py
 # pylint --disable=locally-disabled records.py
 
-
 import os
 import json
 import numpy as np
@@ -355,7 +354,8 @@ class CorpRecords(object):
                                             if v['type'] == 'int')
         CorpRecords.ATTRIBUTE_READ_VARS = set(k for k,
                                             v in vardict['read'].items()
-                                            if v['attribute'] == 'Yes')        
+                                            if v['attribute'] == 'Yes')   
+        #print('att read vars', CorpRecords.ATTRIBUTE_READ_VARS)
         FLOAT_READ_VARS = set(k for k, v in vardict['read'].items()
                               if v['type'] == 'float')
         CorpRecords.MUST_READ_VARS = set(k for k, v in vardict['read'].items()
@@ -410,9 +410,10 @@ class CorpRecords(object):
         #print("grow factors columns all ", self.gfactors.factor_names())
         gf_columns_all = self.gfactors.factor_names()
         gf_columns = CorpRecords.USABLE_READ_VARS.intersection(gf_columns_all)
+        
         #print("grow factors columns used ", gf_columns)
         attribute_columns = list(CorpRecords.ATTRIBUTE_READ_VARS.intersection(gf_columns_all))     
-        #print('attribute_columns ', attribute_columns)
+        print('attribute_columns ', attribute_columns)
         #print('Revenues ', getattr(self, 'Revenues'))
         if len(attribute_columns)==0:
             for col in gf_columns:
@@ -420,27 +421,29 @@ class CorpRecords(object):
                 var = getattr(self, col)
                 var *= GF_COLS
                 setattr(self, col, var)
-               
-                
+                               
         else:
             attribute_data = list(getattr(self, attribute_columns[0]))
             attribute_types = set(attribute_data)
-            #print('attribute_types ', attribute_types)
+            print('attribute_types ', attribute_types)
             #print(attribute_columns[0], attribute_data)
             GF_COLS = np.ones(len(attribute_data))
             for col in gf_columns:
-                #col = 'Revenues'
+                #print('col', col)
                 for val in attribute_types:
                     #print('val ', val)
                     gf_value = self.gfactors.factor_value(col, year, attribute_columns[0], val)
-                    #print('gf_value ', gf_value)
+                    #print('val & gf_value ', val, gf_value)
                     attribute_bool = [i==val for i in attribute_data]
                     #print(attribute_data==val)
                     GF_COLS = np.where(attribute_bool, gf_value, GF_COLS)
                 #print('GF_COLS ', GF_COLS)
                 var = getattr(self, col)
-                #print('var before ', var)                
-                var *= GF_COLS
+                #print('var before ', var)
+                if col == attribute_columns[0]:
+                    var = var
+                else:
+                    var *= GF_COLS
                 #print('var after ', var)
                 setattr(self, col, var)
             #self.ST_CG_AMT_1 *= GF_ST_CG_AMT_1

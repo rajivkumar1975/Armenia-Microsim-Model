@@ -226,8 +226,9 @@ def calc_profit_totax(switch_TO, cit_tax_rate, net_profit_margin, calc_TO_all, i
     return income_totax_payer
 
 @iterate_jit(nopython=True)
-def calc_taxable_profit_loss_fun(calc_taxable_income, calc_total_ded_with_dep, calc_ded_total_licensing, calc_ded_total_org_production_border, calc_gti):
-    calc_gti = calc_taxable_income - calc_total_ded_with_dep + calc_ded_total_licensing + calc_ded_total_org_production_border 
+def calc_taxable_profit_loss_fun(calc_taxable_income, income_totax_payer, calc_total_ded_with_dep, calc_ded_total_licensing, 
+                                 calc_ded_total_org_production_border, calc_gti):
+    calc_gti = calc_taxable_income - calc_total_ded_with_dep + calc_ded_total_licensing + calc_ded_total_org_production_border + income_totax_payer
     return (calc_gti)
 
 @iterate_jit(nopython=True)

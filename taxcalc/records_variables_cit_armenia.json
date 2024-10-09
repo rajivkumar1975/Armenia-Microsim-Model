@@ -9,6 +9,17 @@
       "cross_year": "No",
       "attribute": "No"
     },
+     "DataSet": {
+       "required": true,
+       "type": "int",
+       "desc": "Unique positive numeric identifier for tax regime",
+       "form": {
+         "2022": "private info"
+       },
+       "cross_year": "No",
+       "attribute": "No"
+     },
+    
    "Year": {
       "required": true,
       "type": "int",
@@ -2128,6 +2139,15 @@
           "cross_year": "No",
           "attribute": "No"
         },
+         "sector_code": {
+           "type": "int",
+           "desc": "Mining (1), Construction (2), Trading (3), Industrial (4), Others (5)",
+           "form": {
+             "2022": " "
+           },
+           "cross_year": "No",
+           "attribute": "Yes"
+         },
             "region": {
               "type": "string",
               "desc": " ",

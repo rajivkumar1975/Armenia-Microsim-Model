@@ -437,7 +437,7 @@ class Calculator(object):
         if self.corprecords is not None:
             for i in range(len(cit_function_names)):
                 func_name = globals()[cit_function_names[str(i)]]
-                print(self.cit_function_names[str(i)])
+                #print(self.cit_function_names[str(i)])
                 func_name(self.__policy, self.__corprecords)
                 
         
@@ -541,6 +541,7 @@ class Calculator(object):
                 if len(self.ATTRIBUTE_READ_VARS_CIT) > 0:
                     attribute_data = list(getattr(self.__corprecords, 
                                                   self.ATTRIBUTE_READ_VARS_CIT[attribute_index]))
+                    #print('attribute data is ', attribute_data)
                     attribute_types = list(set(attribute_data))
                 else:
                     attribute_types = []                    
@@ -562,7 +563,8 @@ class Calculator(object):
             msg = 'tax type ="{}" is not valid'
             raise ValueError(msg.format(tax_type))
 
-        return (['All']+attribute_types, attribute_data)
+        return (['All'] + attribute_types, attribute_data)
+        
         
 
     def weighted_total_tax_dict(self, tax_type, variable_name):
@@ -636,7 +638,9 @@ class Calculator(object):
                 if tax_type == 'pit':
                     wtd_total_tax[attribute_value] = (tax_data * self.array('weight') * attribute_bool).sum()
                 elif tax_type == 'cit':
-                    wtd_total_tax[attribute_value] = (tax_data * self.carray('weight') * attribute_bool).sum()     
+                    wtd_total_tax[str(attribute_value)] = (tax_data * self.carray('weight') * attribute_bool).sum() 
+                elif tax_type == 'tot':
+                    wtd_total_tax[str(attribute_value)] = (tax_data * self.carray('weight') * attribute_bool).sum()  
         #print(wtd_total_cit)
         return wtd_total_tax
             

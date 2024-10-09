@@ -73,7 +73,7 @@ def weighted_total_tax(calc, tax_list, category, year, tax_dict, gdp=None, attri
     for tax_type in tax_list:
         tax_dict[tax_type][year][category] = {}
         tax_dict[tax_type][year][category]['value'] = calc.weighted_total_tax_dict(tax_type, tax_type+'ax')       #Function in calculator class
-        #print(tax_dict[tax_type][year][category]['value'])
+        print(tax_dict[tax_type][year][category]['value'])
         tax_dict[tax_type][year][category]['value_bill'] = {}
         tax_dict[tax_type][year][category]['value_bill_str'] = {}
         if gdp is not None:
@@ -358,12 +358,7 @@ def generate_policy_revenues():
                                         'newloss10':"Loss_lag10", 'Cl_WDV_prop':'Op_WDV_prop'})
         cfdata2.to_csv("taxcalc/cfdata2.csv", index=False)
         
-        data[year] = calc2.dataframe_cit(['id_n', 'Year', 'Op_WDV_prop', 'Cl_WDV_prop','calc_taxable_income', 
-                                          'Loss_lag1', 'Loss_lag2', 'Loss_lag3', 'Loss_lag4', 'Loss_lag5',
-                                          'Loss_lag6', 'Loss_lag7', 'Loss_lag8', 'Loss_lag9', 'Loss_lag10',
-                                          'newloss1', 'newloss2', 'newloss3', 'newloss4', 'newloss5',
-                                          'newloss6', 'newloss7', 'newloss8', 'newloss9', 'newloss10', 'calc_gti', 'calc_TO_all', 
-                                          'income_totax_payer', 'citax'])
+        data[year] = calc2.dataframe_cit(['id_n', 'DataSet', 'Year', 'calc_gti', 'calc_TO_all', 'income_totax_payer', 'citax', 'totax'])
         #print("Gini Coefficient", calc1.gini(gross_i_w))
         
         '''
@@ -490,8 +485,8 @@ def generate_policy_revenues():
                 '''
                 output_in_averages = True
                 output_categories = 'weighted_deciles' 
-                print('tax type is ', tax_type)
-                print('income measure', income_measure[tax_type])
+                #print('tax type is ', tax_type)
+                #print('income measure', income_measure[tax_type])
                 dt1[tax_type][year], dt2[tax_type][year] = calc1.distribution_tables_dict(tax_type, calc2, output_categories, 
                                                     distribution_vardict_dict[tax_type], income_measure=income_measure[tax_type],
                                                     averages=output_in_averages,
@@ -666,7 +661,7 @@ def generate_policy_revenues():
         #print('dt', dt)
         return dt 
         
-    
+    print('revenue dict is ', revenue_dict)
     with open('revenue_dict.json', 'w') as f:
         json.dump(revenue_dict, f)
     #save the results of each tax type in separate files
