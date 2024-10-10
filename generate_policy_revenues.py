@@ -618,7 +618,17 @@ dist_table weighted deciles     weight     inc_total         citax
                 dt_dist = dt1.get(tt, {}).get(year, {}).get(code)
                 dt_dist = pd.DataFrame(dt_dist)
                 dt_dist.insert(0, 'Description', column)
-                dt_dist.to_csv('dist'+ '{}'.format(code) + '{}'.format(year) + '{}'.format(tt) + '.csv', index=False)
+                if code == 1:
+                    code = 'Mining'
+                elif code == 2:
+                    code = 'Construction'
+                elif code == 3:
+                    code = 'Trading'
+                elif code == 4:
+                    code = 'Industrial'
+                else:
+                    code = 'Others'
+                dt_dist.to_csv('dist_'+ '{}'.format(code) + '_' + '{}'.format(year) + '_', '{}'.format(tt) + '.csv', index=False)
             
     
     def calc_gini(df_tax12, tax_type):
