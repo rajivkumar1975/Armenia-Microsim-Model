@@ -100,7 +100,7 @@ def tab5(self):
         print('self.tax_list', self.tax_list)
         self.vars[tax_type+'_distribution_table'] = 0
         self.vars[tax_type+'_display_distribution_table'] = 0
-        self.vars[tax_type+'_display_distribution_table_by_attribute'] = 0
+        self.vars[tax_type+'_display_distribution_table_by_attribute'] = 1
         self.vars[tax_type+'_display_revenue_table'] = 1
 
     self.vars['sst'+'_distribution_table'] = 0 
@@ -110,7 +110,7 @@ def tab5(self):
 
     self.vars['tot'+'_distribution_table'] = 0 
     self.vars['tot'+'_display_distribution_table'] = 0
-    self.vars['tot'+'_display_distribution_table_by_attribute'] = 0
+    self.vars['tot'+'_display_distribution_table_by_attribute'] = 1
     self.vars['tot'+'_display_revenue_table'] = 1
         
     self.save_inputs()

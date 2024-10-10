@@ -337,6 +337,8 @@ def generate_policy_revenues():
 
     #tax_type = tax_list[0]
     data = {}
+    data_dist = {}
+    
     for year in range(data_start_year, end_year+1):       
         calc1.advance_to_year1(year)
         calc1.calc_all()
@@ -358,7 +360,7 @@ def generate_policy_revenues():
                                         'newloss10':"Loss_lag10", 'Cl_WDV_prop':'Op_WDV_prop'})
         cfdata2.to_csv("taxcalc/cfdata2.csv", index=False)
         
-        data[year] = calc2.dataframe_cit(['id_n', 'DataSet', 'Year', 'calc_gti', 'calc_TO_all', 'income_totax_payer', 'citax', 'totax'])
+        data[year] = calc2.dataframe_cit(['id_n', 'DataSet', 'Year', 'calc_gti', 'inc_total', 'calc_TO_all', 'income_totax_payer', 'citax', 'totax'])
         #print("Gini Coefficient", calc1.gini(gross_i_w))
         
         '''
@@ -445,8 +447,9 @@ def generate_policy_revenues():
         #Thus after first row containing headers, output of display_table was 2 - thus row_num for first loop with year 2022 is 2.
         #After the first loop with year=2022, output of display_table is 3 and so on
         #If arguments in display_table func do not have header and row is specified then row is not none 
-        
+        data_dist[year] = {}
         for tax_type in tax_list:
+            data_dist[year][tax_type] = {}
             if global_variables[tax_type+'_display_revenue_table']:
                 if year>=start_year:
                     row_num[tax_type] = display_table(window_dict[tax_type], 
@@ -471,6 +474,7 @@ def generate_policy_revenues():
             income_measure[tax_type] = distribution_vardict_dict[tax_type]['income_measure']
 
             if global_variables[tax_type+'_distribution_table']:
+                
                 #print(tax_type+'_distribution_table')
                 if not global_variables[tax_type+'_display_distribution_table_by_attribute']:
                     dist_table_attribute_var=None
@@ -481,11 +485,73 @@ def generate_policy_revenues():
                 Calculator class which creates two tables for each output category - dt1 using calc1 (baseline or current law) and dt2 using calc2 (reform)
                 Calc.distribution_tables_dict function uses a function self.distribution_table_dataframe to generate self or baseline dist table and 
                 calc2.distribution_table_dataframe to generate reform dist table
+                with attribute var as Sector Code, dt1 and dt2 are dictionaries that contain dist tables for All and each sector code
+                dt1[tax_type][year] for instance dt1['cit'][2022] will contain dist tables for All and sector code 1.0 in this format -
+                
+                attribute types ['All', 1, 2, 3, 4, 5]
+vdf is         DataSet  weight     inc_total         citax
+0          1.0   0.937  8.272460e+06  4.505395e+05
+1          1.0   0.937  1.116260e+07  2.077777e+05
+2          1.0   0.937  2.036702e+09  0.000000e+00
+3          1.0   0.937  1.614493e+05  1.404887e+04
+4          1.0   0.937  1.833925e+09  4.175290e+06
+...        ...     ...           ...           ...
+22939      1.0   0.937  9.904872e+08  4.624691e+07
+22940      1.0   0.937  6.373243e+07  4.513233e+06
+22941      1.0   0.937  2.729242e+07  9.109755e+05
+22942      1.0   0.937  7.591529e+06  0.000000e+00
+22943      1.0   0.937  0.000000e+00  0.000000e+00
+
+[22944 rows x 4 columns]
+dist_table weighted deciles       weight     inc_total         citax
+0      0.000  0.000000e+00  0.000000e+00
+1      0.000  0.000000e+00  0.000000e+00
+2   2149.478  5.300082e+03  2.295075e+05
+3   2149.478  1.714184e+09  7.155047e+07
+4   2150.415  1.281651e+10  4.533351e+08
+5   2149.478  4.275310e+10  1.070171e+09
+6   2150.415  9.840170e+10  2.056637e+09
+7   2149.478  1.923823e+11  3.278611e+09
+8   2149.478  3.659278e+11  6.372341e+09
+9   2150.415  6.950998e+11  1.267869e+10
+10  2149.478  1.544944e+12  2.933566e+10
+11  1074.739  1.818152e+12  3.902853e+10
+12   860.166  4.773908e+12  9.572727e+10
+13   215.510  1.345141e+13  4.095072e+11
+vdf is         DataSet  weight     inc_total         citax  sector_code
+165        1.0   0.937  3.097730e+08  2.486755e+07          1.0
+170        1.0   0.937  0.000000e+00  0.000000e+00          1.0
+321        1.0   0.937  3.322704e+07  0.000000e+00          1.0
+679        1.0   0.937  2.936440e+08  6.822332e+06          1.0
+692        1.0   0.937  3.651584e+07  0.000000e+00          1.0
+...        ...     ...           ...           ...          ...
+22454      1.0   0.937  0.000000e+00  0.000000e+00          1.0
+22569      1.0   0.937  9.889232e+08  4.954021e+06          1.0
+22654      1.0   0.937  1.948585e+06  0.000000e+00          1.0
+22683      1.0   0.937  0.000000e+00  0.000000e+00          1.0
+22756      1.0   0.937  1.032680e+08  0.000000e+00          1.0
+
+[169 rows x 5 columns]
+dist_table weighted deciles     weight     inc_total         citax
+0    0.000  0.000000e+00  0.000000e+00
+1    0.000  0.000000e+00  0.000000e+00
+2   14.992  0.000000e+00  0.000000e+00
+3   15.929  0.000000e+00  0.000000e+00
+4   15.929  4.230000e+06  0.000000e+00
+5   15.929  9.542792e+07  1.455469e+06
+6   15.929  5.191823e+08  7.443966e+06
+7   15.929  1.303919e+09  2.862481e+07
+8   15.929  3.056843e+09  7.143499e+07
+9   15.929  6.472280e+09  2.231951e+08
+10  15.929  1.670151e+10  6.659045e+08
+11   7.496  2.861208e+10  9.662402e+08
+12   6.559  2.113464e+11  2.352329e+09
+13   1.874  6.649032e+11  1.781004e+10
                                 
                 '''
                 output_in_averages = True
                 output_categories = 'weighted_deciles' 
-                #print('tax type is ', tax_type)
+                print('distribution_vardict_dict[tax_type] is ', distribution_vardict_dict[tax_type])
                 #print('income measure', income_measure[tax_type])
                 dt1[tax_type][year], dt2[tax_type][year] = calc1.distribution_tables_dict(tax_type, calc2, output_categories, 
                                                     distribution_vardict_dict[tax_type], income_measure=income_measure[tax_type],
@@ -505,7 +571,7 @@ def generate_policy_revenues():
                                                     distribution_vardict_dict[tax_type], income_measure=income_measure[tax_type],
                                                     averages=output_in_averages,
                                                     scaling=True, attribute_var=dist_table_attribute_var)
-
+                                
             if tax_type=='pit':
                 df_tax1[tax_type][year]['All'] = calc1.dataframe([id_var, 'weight', income_measure[tax_type], tax_collection_var[tax_type]])
                 df_tax1[tax_type][year]['All'].set_index(id_var)
@@ -521,6 +587,7 @@ def generate_policy_revenues():
                 df_tax1[tax_type][year]['All'].set_index(id_var)
                 df_tax2[tax_type][year]['All'] = calc2.dataframe_cit([id_var, 'weight', income_measure[tax_type], tax_collection_var[tax_type]])
                 df_tax2[tax_type][year]['All'].set_index(id_var)
+                #print('df_tax1', df_tax1[tax_type][year])
             elif tax_type=='tot':
                 # distribution_json_filename[tax_type] = 'taxcalc/'+global_variables[tax_type+'_distribution_json_filename']
                 # f = open(distribution_json_filename[tax_type])
@@ -531,17 +598,28 @@ def generate_policy_revenues():
                 df_tax1[tax_type][year]['All'].set_index(id_var)
                 df_tax2[tax_type][year]['All'] = calc2.dataframe_cit([id_var, 'weight', income_measure[tax_type], tax_collection_var[tax_type]])
                 df_tax2[tax_type][year]['All'].set_index(id_var)
+                #print('df_tax1', df_tax1[tax_type][year])
             elif tax_type=='vat':
                 df_tax1[tax_type][year]['All'] = calc1.dataframe_vat([id_var, 'weight', income_measure[tax_type], tax_collection_var])
                 df_tax1[tax_type][year]['All'].set_index(id_var)
                 df_tax2[tax_type][year]['All'] = calc2.dataframe_vat([id_var, 'weight', income_measure[tax_type], tax_collection_var])
                 df_tax2[tax_type][year]['All'].set_index(id_var)
                 #print('dt1_percentile[tax_type][year] ', dt1_percentile[tax_type][year])
-        #print('df_tax1', df_tax1)
+        print('dt1', dt1)
     for year in range(data_start_year, end_year+1):
         dfcalc = data.get(year)     
         dfcalc.to_csv('output'+ '{}'.format(year) + '.csv', index=False)
-        
+   
+    column = ['0-10n', '0-10z', '0-10p', '10-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80', '80-90', '90-100', 'All', '90-95', '95-99', 'Top 1%']
+    sectors = ['All', 1, 2, 3, 4, 5]
+    for tt in ['cit', 'tot']:
+        for year in [2022]:
+            for code in sectors:
+                dt_dist = dt1.get(tt, {}).get(year, {}).get(code)
+                dt_dist = pd.DataFrame(dt_dist)
+                dt_dist.insert(0, 'Description', column)
+                dt_dist.to_csv('dist'+ '{}'.format(code) + '{}'.format(year) + '{}'.format(tt) + '.csv', index=False)
+            
     
     def calc_gini(df_tax12, tax_type):
         """
