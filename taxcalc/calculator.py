@@ -536,7 +536,7 @@ class Calculator(object):
             else:
                 msg = 'tax type record ="{}" is not initialized'
                 raise ValueError(msg.format(tax_type))
-        elif tax_type == 'cit':
+        elif (tax_type == 'cit') or (tax_type == 'tot'):
             if self.corprecords is not None:            
                 if len(self.ATTRIBUTE_READ_VARS_CIT) > 0:
                     attribute_data = list(getattr(self.__corprecords, 
@@ -1071,15 +1071,28 @@ class Calculator(object):
                                    calc.carray('weight'))
                 if attribute_var is not None:                
                     (attribute_types, attribute_data) = self.get_attribute_types(tax_type, 0)
+                    #print('attr types in dist table dict is ', attribute_types)
             if self.gstrecords is not None:
                 assert np.allclose(self.garray('weight'),
                                    calc.garray('weight'))
                 if attribute_var is not None:                
                     (attribute_types, attribute_data) = self.get_attribute_types(tax_type, 0)
-        #print('attribute_types ', attribute_types)
+        print('attribute var ', attribute_var)
+        print('attribute types', attribute_types)
         dt1 = {}
         for attribute_value in attribute_types:                   
             var_dataframe = self.distribution_table_dataframe(tax_type, distribution_vardict['DIST_VARIABLES'], attribute_value, attribute_var)
+            #print('var_dataframe is ', var_dataframe)
+            #print('tax_type for var_dataframe is ', tax_type)
+            if tax_type == 'cit':
+                var_dataframe = var_dataframe[var_dataframe["DataSet"] == 1]
+            elif tax_type == 'tot':
+                var_dataframe = var_dataframe[var_dataframe["DataSet"] == 2]
+            # elif tax_type == 'tot':
+            #     var_dataframe = calc.distribution_table_dataframe(tax_type, distribution_vardict['DIST_VARIABLES'], attribute_value, attribute_var)
+            #     var_dataframe = var_dataframe[var_dataframe["DataSet"] == 2]
+            #var_dataframe = var_dataframe.drop(columns=['DataSet'])
+            #var_dataframe.drop(columns=['DataSet'], axis=1)
             #print('var_dataframe \n', var_dataframe)
             #print('tax type', tax_type)
             if income_measure is None:
@@ -1099,6 +1112,14 @@ class Calculator(object):
             dt2 = {}
             for attribute_value in attribute_types:  
                 var_dataframe = calc.distribution_table_dataframe(tax_type, distribution_vardict['DIST_VARIABLES'], attribute_value, attribute_var)
+                if tax_type == 'cit':
+                    var_dataframe = var_dataframe[var_dataframe["DataSet"] == 1]
+                elif tax_type == 'tot':
+                    var_dataframe = var_dataframe[var_dataframe["DataSet"] == 2]
+                # elif tax_type == 'tot':
+                #     var_dataframe = calc.distribution_table_dataframe(tax_type, distribution_vardict['DIST_VARIABLES'], attribute_value, attribute_var)
+                #     var_dataframe = var_dataframe[var_dataframe["DataSet"] == 2]
+                #var_dataframe = var_dataframe.drop(columns=['DataSet'])
                 if have_same_income_measure(self, calc, imeasure):
                     if income_measure is None:
                         imeasure = 'calc_gti'

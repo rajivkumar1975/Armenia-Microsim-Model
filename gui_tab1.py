@@ -131,7 +131,7 @@ def initialize_vars(self):
     self.vars['kakwani_list'] = []
     
     self.vars['start_year'] = 2022   #this may be different from the start year in globalvars.json which gets updated separately
-    self.vars['end_year']=2027
+    self.vars['end_year']=2023
     self.vars['pit_data_start_year'] = 2021
     self.vars['cit_data_start_year'] = 2022
 

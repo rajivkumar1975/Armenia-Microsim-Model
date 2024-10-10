@@ -1,18 +1,19 @@
 {
   "DIST_VARIABLES": [
+    "DataSet",
     "weight",
-    "calc_gti",
+    "inc_total",
     "citax"
     
   ],
   "DIST_TABLE_COLUMNS": [
     "weight",
-    "calc_gti",
+    "inc_total",
     "citax"
   ],
   "DIST_TABLE_LABELS": [
     "Returns",
-    "Gross Taxable Profit",
+    "Gross Turnover",
     "Corporate Income Tax"
   ],
   "DECILE_ROW_NAMES": [
@@ -65,5 +66,5 @@
     1000000000.0,
     9e+99
   ],
-  "income_measure": "calc_gti"
+  "income_measure": "inc_total"
 }
